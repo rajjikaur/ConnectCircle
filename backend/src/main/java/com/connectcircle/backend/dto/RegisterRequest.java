@@ -1,13 +1,13 @@
 
 package com.connectcircle.backend.dto;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class RegisterRequest {
 
@@ -29,10 +29,10 @@ public class RegisterRequest {
 
     // Backward compatibility with the existing frontend
     @Pattern(
-            regexp = "(?i)USER|CREATOR|BRAND",
-            message = "Role must be USER, CREATOR or BRAND"
-    )
-    private String role = "USER";
+        regexp = "(?i)CONSUMER|INFLUENCER|BRAND",
+        message = "Role must be CONSUMER, INFLUENCER or BRAND"
+)
+private String role = "CONSUMER";
 
     // New field: supports multiple roles
     private Set<String> roles = new LinkedHashSet<>();

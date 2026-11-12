@@ -50,12 +50,13 @@ function Login() {
         data.role || roles[0] || 'USER'
       ).toUpperCase()
 
-      const roleRoutes = {
-        BRAND: 'brand',
-        CREATOR: 'influencer',
-        INFLUENCER: 'influencer',
-        USER: 'consumer',
-      }
+     const roleRoutes = {
+  BRAND: 'brand',
+  CREATOR: 'influencer',
+  INFLUENCER: 'influencer',
+  USER: 'consumer',
+  CONSUMER: 'consumer',
+}
 
       const dashboardRole = roleRoutes[selectedRole]
 

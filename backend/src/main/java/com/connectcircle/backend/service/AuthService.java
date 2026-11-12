@@ -1,20 +1,20 @@
 
 package com.connectcircle.backend.service;
 
+import java.util.LinkedHashSet;
+import java.util.Locale;
+import java.util.Set;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.connectcircle.backend.dto.LoginRequest;
 import com.connectcircle.backend.dto.RegisterRequest;
 import com.connectcircle.backend.entity.Role;
 import com.connectcircle.backend.entity.User;
 import com.connectcircle.backend.repository.RoleRepository;
 import com.connectcircle.backend.repository.UserRepository;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.LinkedHashSet;
-import java.util.Locale;
-import java.util.Set;
 
 @Service
 public class AuthService {
@@ -77,7 +77,7 @@ public class AuthService {
             String selectedRole = request.getRole();
 
             if (selectedRole == null || selectedRole.isBlank()) {
-                selectedRole = "USER";
+                selectedRole = "CONSUMER";
             }
 
             selectedRoleNames.add(
@@ -87,8 +87,8 @@ public class AuthService {
 
         // Public registration cannot assign ADMIN
         Set<String> allowedRoles = Set.of(
-                "USER",
-                "CREATOR",
+                "CONSUMER",
+                "INFLUENCER",
                 "BRAND"
         );
 

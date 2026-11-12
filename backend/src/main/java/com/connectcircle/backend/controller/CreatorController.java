@@ -1,12 +1,12 @@
 
 package com.connectcircle.backend.controller;
 
+import java.util.Map;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/creator")
@@ -19,7 +19,7 @@ public class CreatorController {
         return Map.of(
                 "message", "Welcome to Creator Dashboard!",
                 "email", authentication.getName(),
-                "role", "CREATOR",
+                "role", "INFLUENCER",
                 "status", "Access Granted"
         );
     }

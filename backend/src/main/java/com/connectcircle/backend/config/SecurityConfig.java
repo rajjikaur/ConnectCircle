@@ -1,28 +1,24 @@
 
 package com.connectcircle.backend.config;
 
-import com.connectcircle.backend.security.JwtAuthenticationFilter;
-
-import jakarta.servlet.DispatcherType;
+import java.util.List;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import com.connectcircle.backend.security.JwtAuthenticationFilter;
+
+import jakarta.servlet.DispatcherType;
 
 @Configuration
 public class SecurityConfig {
@@ -58,7 +54,9 @@ public class SecurityConfig {
                 "http://localhost:5173",
                 "http://127.0.0.1:5173",
                 "http://localhost:5174",
-                "http://127.0.0.1:5174"
+                "http://127.0.0.1:5174",
+                "http://localhost:5176",
+                "http://127.0.0.1:5176"
         ));
 
         configuration.setAllowedMethods(List.of(
@@ -109,6 +107,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+                        // Allow error dispatch
                         .dispatcherTypeMatchers(
                                 DispatcherType.ERROR
                         ).permitAll()
@@ -128,25 +127,31 @@ public class SecurityConfig {
 
                         // Creator endpoints
                         .requestMatchers("/api/creator/**")
-                        .hasAnyRole("CREATOR", "ADMIN")
+                        .hasAnyRole("INFLUENCER", "ADMIN")
 
                         // Brand endpoints
                         .requestMatchers("/api/brand/**")
                         .hasAnyRole("BRAND", "ADMIN")
 
+                        // Consumer endpoints
+                        .requestMatchers("/api/consumer/**")
+                        .hasAnyRole("CONSUMER", "ADMIN")
+
                         // User endpoints
                         .requestMatchers("/api/users/**")
                         .hasAnyRole(
-                                "USER",
-                                "CREATOR",
+                                "CONSUMER",
+                                "INFLUENCER",
                                 "BRAND",
                                 "ADMIN"
                         )
 
+                        // All remaining endpoints
                         .anyRequest().authenticated()
                 )
 
                 .httpBasic(basic -> basic.disable())
+
                 .formLogin(form -> form.disable())
 
                 .addFilterBefore(
