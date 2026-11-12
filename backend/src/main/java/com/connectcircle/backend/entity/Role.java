@@ -1,7 +1,12 @@
 
 package com.connectcircle.backend.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "roles")
@@ -9,12 +14,13 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id")
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 30)
+    @Column(name = "role_code", nullable = false, unique = true, length = 30)
     private String name;
 
-    @Column(length = 255)
+    @Column(name = "role_name", nullable = false, length = 60)
     private String description;
 
     public Role() {
